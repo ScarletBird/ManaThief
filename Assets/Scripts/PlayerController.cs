@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     //sound for collecting mana
     public AudioSource manaAudioSource;
 
+    // access the HUD
+    public HudManager hud;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,9 @@ public class PlayerController : MonoBehaviour
 
         //get the player collider
         coll = GetComponent<Collider>();
+
+        //refresh the HUD
+        hud.Refresh();
     }
 
     // Update is called once per frame
@@ -124,6 +131,9 @@ public class PlayerController : MonoBehaviour
 
             // Increase score
             GameManager.instance.IncreaseScore(1);
+
+            //refresh the HUD
+            hud.Refresh();
 
             // Play the collection sound
             manaAudioSource.Play();

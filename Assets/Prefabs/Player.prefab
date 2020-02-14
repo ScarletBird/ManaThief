@@ -110,6 +110,7 @@ MonoBehaviour:
   walkSpeed: 8
   jumpSpeed: 7
   manaAudioSource: {fileID: 9145913878917219302}
+  hud: {fileID: 0}
 --- !u!54 &216424619
 Rigidbody:
   m_ObjectHideFlags: 0
