@@ -20,7 +20,10 @@ public class GameManager : MonoBehaviour
  
     // Highest level available in the game
     public int highestLevel = 2;
- 
+
+    // Is the game paused or not
+    public bool isPaused;
+
     // Called when the object is initialized
     void Awake()
     {
@@ -40,6 +43,9 @@ public class GameManager : MonoBehaviour
  
         // Don't destroy this object when loading scenes
         DontDestroyOnLoad(gameObject);
+
+        // Makes sure the game is unpaused
+        isPaused = false;
     }
  
     // Increase score
@@ -84,4 +90,5 @@ public class GameManager : MonoBehaviour
         }
         SceneManager.LoadScene("Level" + currentLevel);
     }
+
 }

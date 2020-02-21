@@ -24,4 +24,5 @@ public class GameOverUIManager : MonoBehaviour
         // Reset the game
         GameManager.instance.Reset();
     }
+
 }

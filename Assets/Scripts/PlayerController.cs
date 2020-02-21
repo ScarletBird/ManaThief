@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -44,8 +45,21 @@ public class PlayerController : MonoBehaviour
         // Handle player walking
         WalkHandler();
 
-        //Handle player jumping
+        // Handle player jumping
         JumpHandler();
+
+        // Handle pause
+        PauseHandler();
+    }
+
+    private void PauseHandler()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            if (!GameManager.instance.isPaused)
+                hud.Pause();
+            else
+                hud.UnPause();
+        }
     }
 
     void WalkHandler() {
