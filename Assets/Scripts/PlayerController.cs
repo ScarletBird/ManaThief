@@ -25,6 +25,12 @@ public class PlayerController : MonoBehaviour
     // access the HUD
     public HudManager hud;
 
+    // player's max speed
+    public float maxSpeed;
+
+    // player's friction
+    public float friction;
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,14 +48,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Handle pause
+        PauseHandler();
+    }
+    void FixedUpdate()
+    {
         // Handle player walking
         WalkHandler();
 
         // Handle player jumping
         JumpHandler();
 
-        // Handle pause
-        PauseHandler();
     }
 
     private void PauseHandler()
@@ -66,15 +75,43 @@ public class PlayerController : MonoBehaviour
         // Distance ( speed = distance / time --> distance = speed * time)
         float distance = walkSpeed * Time.deltaTime;
 
+        bool isGrounded = CheckGrounded();
+
         // Input on x ("Horizontal")
         float hAxis = Input.GetAxis("Horizontal");
 
         // Input on z ("Vertical")
         float vAxis = Input.GetAxis("Vertical");
- 
+
+        
          // Movement vector
         Vector3 movement = new Vector3(hAxis * distance, 0f, vAxis * distance);
- 
+
+        Vector3 flatvel = rb.velocity;
+        flatvel.y = 0;
+
+        if( movement.magnitude > 0.01f)
+        {
+            //if (isGrounded)
+            {
+                flatvel = flatvel + movement;
+                flatvel = Vector3.ClampMagnitude(flatvel, maxSpeed);
+                rb.velocity = new Vector3(flatvel.x, rb.velocity.y, flatvel.z);
+            }
+        } else
+        {
+            if (isGrounded)
+            {
+                flatvel = flatvel * friction;
+
+                if (flatvel.magnitude <= 0.1f)
+                    flatvel = Vector3.zero;
+
+                rb.velocity = new Vector3(flatvel.x, rb.velocity.y, flatvel.z);
+            }
+        }
+
+        /*
         // Current position
         Vector3 currPosition = transform.position;
  
@@ -83,6 +120,11 @@ public class PlayerController : MonoBehaviour
 
         // Move the rigid body
         rb.MovePosition(newPosition);
+
+        rb.position += hAxis * transform.right * distance;
+
+        rb.position += vAxis * transform.forward * distance;
+        */
     }
 
     void JumpHandler()
